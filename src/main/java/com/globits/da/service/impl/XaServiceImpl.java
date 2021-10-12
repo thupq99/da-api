@@ -14,67 +14,69 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.globits.core.service.impl.GenericServiceImpl;
-import com.globits.da.domain.Category;
-import com.globits.da.dto.CategoryDto;
+import com.globits.da.domain.Xa;
+import com.globits.da.dto.HuyenDto;
+import com.globits.da.dto.XaDto;
 import com.globits.da.dto.search.SearchDto;
-import com.globits.da.repository.CategoryRepository;
-import com.globits.da.service.CategoryService;
+import com.globits.da.repository.XaRepository;
+import com.globits.da.service.XaService;
 
 @Service
-public class CategoryServiceImpl extends GenericServiceImpl<Category, UUID> implements CategoryService {
+public class XaServiceImpl extends GenericServiceImpl<Xa, UUID> implements XaService {
+
 	@Autowired
-	CategoryRepository repos;
+	XaRepository repo;
 
 	@Override
-	public Page<CategoryDto> getPage(int pageSize, int pageIndex) {
-		Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
-		return repos.getListPage(pageable);
-	}
-
-	@Override
-	public CategoryDto saveOrUpdate(UUID id, CategoryDto dto) {
+	public XaDto saveOrupdate(UUID id, XaDto dto) {
 		if (dto != null) {
-			Category entity = null;
+			Xa entity = null;
 			if (dto.getId() != null) {
 				if (dto.getId() != null && !dto.getId().equals(id)) {
 					return null;
 				}
-				entity = repos.getOne(dto.getId());
+				entity = repo.getOne(dto.getId());
 			}
 			if (entity == null) {
-				entity = new Category();
+				entity = new Xa();
 			}
-			entity.setCode(dto.getCode());
 			entity.setName(dto.getName());
+			entity.setDescription(dto.getDescription());
 
-			entity = repos.save(entity);
+			entity = repo.save(entity);
 			if (entity != null) {
-				return new CategoryDto(entity);
+				return new XaDto(entity);
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public Boolean deleteKho(UUID id) {
+	public Page<XaDto> getPage(int pageSize, int pageIndex) {
+		Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
+		return repo.getListPage(pageable);
+	}
+
+	@Override
+	public Boolean deleteXa(UUID id) {
 		if (id != null) {
-			repos.deleteById(id);
+			repo.deleteById(id);
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public CategoryDto getCertificate(UUID id) {
-		Category entity = repos.getOne(id);
+	public XaDto getCertificate(UUID id) {
+		Xa entity = repo.getOne(id);
 		if (entity != null) {
-			return new CategoryDto(entity);
+			return new XaDto(entity);
 		}
 		return null;
 	}
 
 	@Override
-	public Page<CategoryDto> searchByPage(SearchDto dto) {
+	public Page<XaDto> searchByPage(SearchDto dto) {
 		if (dto == null) {
 			return null;
 		}
@@ -92,17 +94,17 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category, UUID> impl
 
 		String orderBy = " ORDER BY entity.createDate DESC";
 
-		String sqlCount = "select count(entity.id) from  Category as entity where (1=1)   ";
-		String sql = "select new com.globits.da.dto.CategoryDto(entity) from  Category as entity where (1=1)  ";
+		String sqlCount = "select count(entity.id) from  Xa as entity where (1=1)   ";
+		String sql = "select new com.globits.da.dto.XaDto(entity) from  Xa as entity where (1=1)  ";
 
 		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
-			whereClause += " AND ( entity.name LIKE :text OR entity.code LIKE :text )";
+			whereClause += " AND ( entity.name LIKE :text )";
 		}
 
 		sql += whereClause + orderBy;
 		sqlCount += whereClause;
 
-		Query q = manager.createQuery(sql, CategoryDto.class);
+		Query q = manager.createQuery(sql, HuyenDto.class);
 		Query qCount = manager.createQuery(sqlCount);
 
 		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
@@ -112,33 +114,18 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category, UUID> impl
 		int startPosition = pageIndex * pageSize;
 		q.setFirstResult(startPosition);
 		q.setMaxResults(pageSize);
-		List<CategoryDto> entities = q.getResultList();
+		List<XaDto> entities = q.getResultList();
 		long count = (long) qCount.getSingleResult();
 
 		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		Page<CategoryDto> result = new PageImpl<CategoryDto>(entities, pageable, count);
+		Page<XaDto> result = new PageImpl<XaDto>(entities, pageable, count);
 		return result;
 	}
 
 	@Override
-	public Boolean checkCode(UUID id, String code) {
-		if (code != null && StringUtils.hasText(code)) {
-			Long count = repos.checkCode(code, id);
-			return count != 0l;
-		}
-		return null;
-	}
-
-	@Override
-	public Boolean deleteCheckById(UUID id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<CategoryDto> getAllCategory() {
-		List<CategoryDto> listCategory = repos.getAllCategory();
-		return listCategory;
+	public List<XaDto> getAllXa() {
+		List<XaDto> listt = repo.getAllXa();
+		return listt;
 	}
 
 }

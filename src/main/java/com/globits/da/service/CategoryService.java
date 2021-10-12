@@ -16,8 +16,8 @@ public interface CategoryService extends GenericService<Category, UUID>{
 	public CategoryDto saveOrUpdate(UUID id,CategoryDto dto);
 	public Boolean deleteKho(UUID id);
 	public CategoryDto getCertificate(UUID id);
-	Page<CategoryDto> searchByPage(SearchDto dto);
-	Boolean checkCode (UUID id,String code);
+	public Page<CategoryDto> searchByPage(SearchDto dto);
+	public Boolean checkCode (UUID id,String code);
 	public List<CategoryDto> getAllCategory();
 	public Boolean deleteCheckById(UUID id);
 }

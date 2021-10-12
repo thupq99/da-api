@@ -1,7 +1,14 @@
 package com.globits.da.domain;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -10,24 +17,54 @@ import com.globits.core.domain.BaseObject;
 @Entity
 @Table(name = "tbl_employee")
 @XmlRootElement
-public class Employee extends BaseObject{
+public class Employee extends BaseObject {
 
 	public static final long serialVersionUID = 1L;
-	
-	@Column(name="code")
+
+	@Column(name = "code")
 	private String code;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
-	@Column(name="email")
+
+	@Column(name = "email")
 	private String email;
-	
-	@Column(name="phone")
+
+	@Column(name = "phone")
 	private String phone;
-	
-	@Column(name="age")
+
+	@Column(name = "age")
 	private int age;
+
+	@ManyToOne
+	@JoinColumn(name = "tinh_id")
+	private Tinh tinh;
+
+	@ManyToOne
+	@JoinColumn(name = "huyen_id")
+	private Huyen huyen;
+
+	@ManyToOne
+	@JoinColumn(name = "xa_id")
+	private Xa xa;
+
+//	@ManyToOne
+//	@JoinColumn(name = "parent_id")
+//	private Employee parent;
+//
+//	@OneToMany(mappedBy = "parent")
+//	private Set<Employee> children;
+
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Vanbang> vb;
+
+	public List<Vanbang> getVb() {
+		return vb;
+	}
+
+	public void setVb(List<Vanbang> vb) {
+		this.vb = vb;
+	}
 
 	public String getCode() {
 		return code;
@@ -68,6 +105,45 @@ public class Employee extends BaseObject{
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
-	
+
+	public Tinh getTinh() {
+		return tinh;
+	}
+
+	public Huyen getHuyen() {
+		return huyen;
+	}
+
+	public Xa getXa() {
+		return xa;
+	}
+
+	public void setTinh(Tinh tinh) {
+		this.tinh = tinh;
+	}
+
+	public void setHuyen(Huyen huyen) {
+		this.huyen = huyen;
+	}
+
+	public void setXa(Xa xa) {
+		this.xa = xa;
+	}
+
+//	public Employee getParent() {
+//		return parent;
+//	}
+//
+//	public Set<Employee> getChildren() {
+//		return children;
+//	}
+//
+//	public void setParent(Employee parent) {
+//		this.parent = parent;
+//	}
+//
+//	public void setChildren(Set<Employee> children) {
+//		this.children = children;
+//	}
+
 }

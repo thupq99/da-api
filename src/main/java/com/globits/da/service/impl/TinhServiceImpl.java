@@ -14,67 +14,69 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.globits.core.service.impl.GenericServiceImpl;
-import com.globits.da.domain.Category;
-import com.globits.da.dto.CategoryDto;
+import com.globits.da.domain.Tinh;
+import com.globits.da.dto.TinhDto;
 import com.globits.da.dto.search.SearchDto;
-import com.globits.da.repository.CategoryRepository;
-import com.globits.da.service.CategoryService;
+import com.globits.da.repository.TinhRepository;
+import com.globits.da.service.TinhService;
 
 @Service
-public class CategoryServiceImpl extends GenericServiceImpl<Category, UUID> implements CategoryService {
+public class TinhServiceImpl extends GenericServiceImpl<Tinh, UUID> implements TinhService {
+
 	@Autowired
-	CategoryRepository repos;
+	TinhRepository repo;
 
 	@Override
-	public Page<CategoryDto> getPage(int pageSize, int pageIndex) {
-		Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
-		return repos.getListPage(pageable);
-	}
+	public TinhDto saveOrupdate(UUID id, TinhDto dto) {
 
-	@Override
-	public CategoryDto saveOrUpdate(UUID id, CategoryDto dto) {
 		if (dto != null) {
-			Category entity = null;
+			Tinh entity = null;
 			if (dto.getId() != null) {
 				if (dto.getId() != null && !dto.getId().equals(id)) {
 					return null;
 				}
-				entity = repos.getOne(dto.getId());
+				entity = repo.getOne(dto.getId());
 			}
 			if (entity == null) {
-				entity = new Category();
+				entity = new Tinh();
 			}
-			entity.setCode(dto.getCode());
 			entity.setName(dto.getName());
+			entity.setDescription(dto.getDescription());
 
-			entity = repos.save(entity);
+			entity = repo.save(entity);
 			if (entity != null) {
-				return new CategoryDto(entity);
+				return new TinhDto(entity);
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public Boolean deleteKho(UUID id) {
+	public Page<TinhDto> getPage(int pageSize, int pageIndex) {
+		Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
+		return repo.getListPage(pageable);
+	}
+
+	@Override
+	public Boolean deleteTinh(UUID id) {
 		if (id != null) {
-			repos.deleteById(id);
+			repo.deleteById(id);
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public CategoryDto getCertificate(UUID id) {
-		Category entity = repos.getOne(id);
+	public TinhDto getCertificate(UUID id) {
+		Tinh entity = repo.getOne(id);
 		if (entity != null) {
-			return new CategoryDto(entity);
+			return new TinhDto(entity);
 		}
 		return null;
 	}
 
 	@Override
-	public Page<CategoryDto> searchByPage(SearchDto dto) {
+	public Page<TinhDto> searchByPage(SearchDto dto) {
 		if (dto == null) {
 			return null;
 		}
@@ -92,17 +94,17 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category, UUID> impl
 
 		String orderBy = " ORDER BY entity.createDate DESC";
 
-		String sqlCount = "select count(entity.id) from  Category as entity where (1=1)   ";
-		String sql = "select new com.globits.da.dto.CategoryDto(entity) from  Category as entity where (1=1)  ";
+		String sqlCount = "select count(entity.id) from  Tinh as entity where (1=1)   ";
+		String sql = "select new com.globits.da.dto.TinhDto(entity) from  Tinh as entity where (1=1)  ";
 
 		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
-			whereClause += " AND ( entity.name LIKE :text OR entity.code LIKE :text )";
+			whereClause += " AND ( entity.name LIKE :text )";
 		}
 
 		sql += whereClause + orderBy;
 		sqlCount += whereClause;
 
-		Query q = manager.createQuery(sql, CategoryDto.class);
+		Query q = manager.createQuery(sql, TinhDto.class);
 		Query qCount = manager.createQuery(sqlCount);
 
 		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
@@ -112,33 +114,44 @@ public class CategoryServiceImpl extends GenericServiceImpl<Category, UUID> impl
 		int startPosition = pageIndex * pageSize;
 		q.setFirstResult(startPosition);
 		q.setMaxResults(pageSize);
-		List<CategoryDto> entities = q.getResultList();
+		List<TinhDto> entities = q.getResultList();
 		long count = (long) qCount.getSingleResult();
 
 		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		Page<CategoryDto> result = new PageImpl<CategoryDto>(entities, pageable, count);
+		Page<TinhDto> result = new PageImpl<TinhDto>(entities, pageable, count);
 		return result;
 	}
 
 	@Override
-	public Boolean checkCode(UUID id, String code) {
-		if (code != null && StringUtils.hasText(code)) {
-			Long count = repos.checkCode(code, id);
-			return count != 0l;
-		}
-		return null;
+	public List<TinhDto> getAllTinh() {
+		List<TinhDto> listt = repo.getAllTinh();
+		return listt;
 	}
 
-	@Override
-	public Boolean deleteCheckById(UUID id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<CategoryDto> getAllCategory() {
-		List<CategoryDto> listCategory = repos.getAllCategory();
-		return listCategory;
-	}
+//	@Override
+//	public String delTinh(UUID id) {
+//		String entity = null;
+//		if(id!=null) {
+//			try {
+//				entity = getTinh(id);
+//				
+//			} catch (Exception e) {
+//				return null;
+//			}
+//			if(entity!=null) {
+//				repo.deleteById(id);
+//				return "success";
+//			}
+//			
+//		}
+//		return null;
+//	}
+//
+//	@Override
+//	public String getTinh(UUID id) {
+//		String tinh = null;
+//		tinh = repo.getTinh(id);
+//		return tinh;
+//	}
 
 }

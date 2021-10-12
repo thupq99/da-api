@@ -25,12 +25,12 @@ public class ImportExportExcelUtil {
 	private static DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	private static DecimalFormat numberFormatter = new DecimalFormat("######################");
 	private static Hashtable<String, String> hashColumnPropertyConfig = new Hashtable<String, String>();
-	
+
 	private static void scanStaffColumnExcelIndex(Sheet datatypeSheet, int scanRowIndex) {
 		Row row = datatypeSheet.getRow(scanRowIndex);
 		int numberCell = row.getPhysicalNumberOfCells();
 
-		hashColumnPropertyConfig.put("staffCode".toLowerCase(),"staffCode");
+		hashColumnPropertyConfig.put("staffCode".toLowerCase(), "staffCode");
 		hashColumnPropertyConfig.put("firstName".toLowerCase(), "firstName");
 		hashColumnPropertyConfig.put("lastName".toLowerCase(), "lastName");
 		hashColumnPropertyConfig.put("displayName".toLowerCase(), "displayName");
@@ -43,26 +43,26 @@ public class ImportExportExcelUtil {
 		hashColumnPropertyConfig.put("password".toLowerCase(), "password");
 		hashColumnPropertyConfig.put("email".toLowerCase(), "email");
 		hashColumnPropertyConfig.put("BirthPlace".toLowerCase(), "BirthPlace");
-		
+
 		hashColumnPropertyConfig.put("departmentCode".toLowerCase(), "departmentCode");
 		hashColumnPropertyConfig.put("MaNgach".toLowerCase(), "MaNgach");
 		hashColumnPropertyConfig.put("IDCard".toLowerCase(), "IDCard");
-		
-		for(int i=0;i<numberCell;i++) {
+
+		for (int i = 0; i < numberCell; i++) {
 			Cell cell = row.getCell(i);
-			if(cell!=null && cell.getCellTypeEnum()==CellType.STRING) {
+			if (cell != null && cell.getCellTypeEnum() == CellType.STRING) {
 				String cellValue = cell.getStringCellValue();
-				if(cellValue!=null && cellValue.length()>0) {
+				if (cellValue != null && cellValue.length() > 0) {
 					cellValue = cellValue.toLowerCase().trim();
 					String propertyName = hashColumnPropertyConfig.get(cellValue);
-					if(propertyName!=null) {
-						hashStaffColumnConfig.put(propertyName,i);
+					if (propertyName != null) {
+						hashStaffColumnConfig.put(propertyName, i);
 					}
-				}	
+				}
 			}
 		}
 	}
-	
+
 	public static List<DepartmentDto> getListDepartmentFromInputStream(InputStream is) {
 		try {
 
@@ -76,7 +76,7 @@ public class ImportExportExcelUtil {
 			int rowIndex = 4;
 
 			hashDepartmentColumnConfig.put("code", 0);
-			
+
 			hashDepartmentColumnConfig.put("name", 1);
 
 			int num = datatypeSheet.getLastRowNum();
@@ -97,20 +97,20 @@ public class ImportExportExcelUtil {
 							department.setCode(code);
 						}
 					}
-				index = hashDepartmentColumnConfig.get("name");
-				if (index != null) {
-					currentCell = currentRow.getCell(index);// name
-					if (currentCell != null && currentCell.getStringCellValue() != null) {
-						String name = currentCell.getStringCellValue();
-						department.setName(name);
+					index = hashDepartmentColumnConfig.get("name");
+					if (index != null) {
+						currentCell = currentRow.getCell(index);// name
+						if (currentCell != null && currentCell.getStringCellValue() != null) {
+							String name = currentCell.getStringCellValue();
+							department.setName(name);
+						}
 					}
+					ret.add(department);
 				}
-				ret.add(department);
-			}
 				rowIndex++;
 			}
 			return ret;
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -118,16 +118,7 @@ public class ImportExportExcelUtil {
 		}
 		return null;
 	}
-	
-	public static void main(String[] agrs) {
-//		try {
-//			
-//				FileInputStream fileIn = new FileInputStream(new File("C:\\Projects\\Globits\\Education\\globits-ecosystem\\hr\\hr-app\\Document\\DanhSachNhanSuDHTL.xlsx"));
-//				List lst = getListStaffFromInputStream(fileIn);
-//				System.out.println(lst.size());
-//			}catch (Exception ex) {
-//					ex.printStackTrace();
-//			}
 
+	public static void main(String[] agrs) {
 	}
 }

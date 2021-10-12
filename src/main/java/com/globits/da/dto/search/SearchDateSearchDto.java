@@ -1,9 +1,11 @@
 package com.globits.da.dto.search;
 
-import java.util.Date;
 import java.util.UUID;
 
-public class SearchDto {
+import org.joda.time.LocalDateTime;
+
+public class SearchDateSearchDto {
+
 	private UUID id;
 	private int pageIndex;
 	private int pageSize;
@@ -13,8 +15,8 @@ public class SearchDto {
 	private String orderBy;
 	private String text;
 	private UUID productCategory;
-	private Date fromDate;
-	private Date toDate;
+	private LocalDateTime fromDate;
+	private LocalDateTime toDate;
 
 	public UUID getProductCategory() {
 		return productCategory;
@@ -88,19 +90,19 @@ public class SearchDto {
 		this.text = text;
 	}
 
-	public Date getFromDate() {
+	public LocalDateTime getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
-	}
-
-	public Date getToDate() {
+	public LocalDateTime getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(Date toDate) {
+	public void setFromDate(LocalDateTime fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public void setToDate(LocalDateTime toDate) {
 		this.toDate = toDate;
 	}
 
