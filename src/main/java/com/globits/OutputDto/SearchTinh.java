@@ -1,7 +1,5 @@
 package com.globits.OutputDto;
 
-import java.util.UUID;
-
 public class SearchTinh {
 	private String name;
 
@@ -12,6 +10,5 @@ public class SearchTinh {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
 }

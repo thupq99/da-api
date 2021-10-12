@@ -42,9 +42,6 @@ public class VanbangDto extends BaseObjectDto {
 						entity.getTinh().getDescription(), entity.getTinh().getId());
 			}
 
-//			this.employeedto = new EmployeeDto(entity.getEmployee().getId(), entity.getEmployee().getCode(),
-//					entity.getEmployee().getName(), entity.getEmployee().getEmail(), entity.getEmployee().getEmail(),
-//					entity.getEmployee().getAge());
 			if (check && entity.getEmployee() != null)
 				this.employeedto = new EmployeeDto(entity.getEmployee(), false);
 

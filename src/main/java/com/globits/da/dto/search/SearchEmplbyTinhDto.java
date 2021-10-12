@@ -1,6 +1,5 @@
 package com.globits.da.dto.search;
 
-import java.util.Date;
 import java.util.UUID;
 
 public class SearchEmplbyTinhDto {

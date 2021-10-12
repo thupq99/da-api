@@ -128,30 +128,4 @@ public class TinhServiceImpl extends GenericServiceImpl<Tinh, UUID> implements T
 		return listt;
 	}
 
-//	@Override
-//	public String delTinh(UUID id) {
-//		String entity = null;
-//		if(id!=null) {
-//			try {
-//				entity = getTinh(id);
-//				
-//			} catch (Exception e) {
-//				return null;
-//			}
-//			if(entity!=null) {
-//				repo.deleteById(id);
-//				return "success";
-//			}
-//			
-//		}
-//		return null;
-//	}
-//
-//	@Override
-//	public String getTinh(UUID id) {
-//		String tinh = null;
-//		tinh = repo.getTinh(id);
-//		return tinh;
-//	}
-
 }

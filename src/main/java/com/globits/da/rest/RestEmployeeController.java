@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.jboss.logging.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globits.OutputDto.EmployeeByDate;
@@ -138,19 +136,6 @@ public class RestEmployeeController {
 		return new ResponseEntity<List<EmployeeDto>>(results, HttpStatus.OK);
 	}
 	
-//	@RequestMapping(value = "/report/EmpbyTinh", method = RequestMethod.GET)
-//	public ResponseEntity<List<EmployeeDto>> getListEmbyTinh(@RequestParam UUID tinh) {
-//		List<EmployeeDto> list = ;
-//		return new ResponseEntity<List<EmployeeDto>>(list, HttpStatus.OK);
-//	}
-
-	// api tim sl nv theo huyen
-//	@RequestMapping(value = "/report/empbyhuyen/{tinh_id}", method = RequestMethod.GET)
-//	public ResponseEntity<List<EmployeeVb>> getListEmHuyen(@PathVariable UUID tinh_id) {
-//		List<EmployeeVb> list = empService.listEmpByHuyen(tinh_id);
-//		return new ResponseEntity<List<EmployeeVb>>(list, HttpStatus.OK);
-//	}
-
 	// api tim sl nv them moi trong 30 ngay gan day
 	@RequestMapping(value = "/report/slCreate", method = RequestMethod.GET)
 	public ResponseEntity<Integer> getListEmCreate() {
@@ -181,15 +166,5 @@ public class RestEmployeeController {
 		Page<EmployeeDto> page = this.empService.searchByPages(searchDto);
 		return new ResponseEntity<Page<EmployeeDto>>(page, HttpStatus.OK);
 	}
-//	public ResponseEntity<Page<EmployeeDto>> searchReportByPage(@RequestBody SearchDto searchDto) {
-//		Page<EmployeeDto> page = this.empService.searchByPage(searchDto);
-//		return new ResponseEntity<Page<EmployeeDto>>(page, HttpStatus.OK);
-//	}
 
-//	//api tim sl nv theo huyen
-//	@RequestMapping(value = "/report/empbyTinh", method = RequestMethod.GET)
-//	public ResponseEntity<List<EmployeeDto>> getListEmTinh(@RequestBody String tinh){
-//		List<EmployeeDto> list = empService.listEmployeeTinh(tinh);
-//		return new ResponseEntity<List<EmployeeDto>>(list, HttpStatus.OK);
-//	}
 }

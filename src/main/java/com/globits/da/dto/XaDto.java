@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.globits.core.dto.BaseObjectDto;
-import com.globits.da.domain.Tinh;
 import com.globits.da.domain.Xa;
 
 public class XaDto extends BaseObjectDto {
@@ -43,13 +42,9 @@ public class XaDto extends BaseObjectDto {
 			this.description = entity.getDescription();
 			if (check && entity.getHuyen() != null)
 				this.huyendto = new HuyenDto(entity.getHuyen(), false);
-//			this.huyendto = new HuyenDto(entity.getHuyen().getName(), entity.getHuyen().getDescription(),
-//					entity.getHuyen().getId());
 
 			this.empls = new ArrayList<EmployeeDto>();
 			if (check && entity.getEmpls() != null) {
-//				entity.getEmpls().forEach(e -> this.empls.add(new EmployeeDto(e.getId(), e.getCode(), e.getName(),
-//						e.getEmail(), e.getEmail(), e.getAge(), e.getVb())));
 				entity.getEmpls().forEach(e -> this.empls.add(new EmployeeDto()));
 			}
 		}

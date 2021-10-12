@@ -1,19 +1,10 @@
 package com.globits.da.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Query;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,7 +23,6 @@ import com.globits.da.domain.Xa;
 import com.globits.da.dto.EmployeeDto;
 import com.globits.da.dto.search.SearchDateSearchDto;
 import com.globits.da.dto.search.SearchDto;
-import com.globits.da.dto.search.SearchEmplbyTinhDto;
 import com.globits.da.repository.EmployeeRepository;
 import com.globits.da.repository.HuyenRepository;
 import com.globits.da.repository.TinhRepository;
@@ -217,9 +207,9 @@ public class EmployeeServiceImpl extends GenericServiceImpl<Employee, UUID> impl
 		Query qCount = manager.createQuery(sqlCount);
 
 		if (dto.getToDate() != null && dto.getFromDate() != null) {
-			
+
 			System.out.println("_____________________________________");
-			
+
 			System.out.println(dto.getToDate() + "; " + dto.getFromDate());
 
 			q.setParameter("text", dto.getToDate());
@@ -273,7 +263,7 @@ public class EmployeeServiceImpl extends GenericServiceImpl<Employee, UUID> impl
 
 	@Override
 	public List<EmployeeDto> listEmployeeTinh(UUID tinh) {
-		if(tinh!=null) {
+		if (tinh != null) {
 			return repo.listEmployeeTinh(tinh);
 		}
 		return null;

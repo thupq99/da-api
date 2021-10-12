@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import com.globits.core.dto.BaseObjectDto;
 import com.globits.da.domain.Huyen;
-import com.globits.da.domain.Tinh;
 import com.globits.da.domain.Xa;
 
 public class HuyenDto extends BaseObjectDto {

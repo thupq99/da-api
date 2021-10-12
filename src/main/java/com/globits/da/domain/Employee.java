@@ -1,7 +1,6 @@
 package com.globits.da.domain;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,13 +46,6 @@ public class Employee extends BaseObject {
 	@ManyToOne
 	@JoinColumn(name = "xa_id")
 	private Xa xa;
-
-//	@ManyToOne
-//	@JoinColumn(name = "parent_id")
-//	private Employee parent;
-//
-//	@OneToMany(mappedBy = "parent")
-//	private Set<Employee> children;
 
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Vanbang> vb;
@@ -129,21 +121,5 @@ public class Employee extends BaseObject {
 	public void setXa(Xa xa) {
 		this.xa = xa;
 	}
-
-//	public Employee getParent() {
-//		return parent;
-//	}
-//
-//	public Set<Employee> getChildren() {
-//		return children;
-//	}
-//
-//	public void setParent(Employee parent) {
-//		this.parent = parent;
-//	}
-//
-//	public void setChildren(Set<Employee> children) {
-//		this.children = children;
-//	}
 
 }
